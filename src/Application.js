@@ -11,7 +11,7 @@ const initialState = {
   slicesPerPerson: 2,
 };
 
-export default class Application extends Component {
+class Application extends Component {
   state = { ...initialState };
 
   updateNumberOfPeople = event => {
@@ -60,3 +60,5 @@ export default class Application extends Component {
     );
   }
 }
+
+export default Application;
