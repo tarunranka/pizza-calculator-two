@@ -9,6 +9,7 @@ import calculatePizzasNeeded from './lib/calculate-pizzas-needed';
 const initialState = {
   numberOfPeople: 10,
   slicesPerPerson: 2,
+  numberOfPizzas: calculatePizzasNeeded(10, 2),
 };
 
 class Application extends Component {
@@ -16,24 +17,32 @@ class Application extends Component {
 
   updateNumberOfPeople = event => {
     const numberOfPeople = parseInt(event.target.value, 10);
-    this.setState({ numberOfPeople });
+    this.setState({
+      numberOfPeople,
+      numberOfPizzas: calculatePizzasNeeded(
+        numberOfPeople,
+        this.state.slicesPerPerson,
+      ),
+    });
   };
 
   updateSlicesPerPerson = event => {
     const slicesPerPerson = parseInt(event.target.value, 10);
-    this.setState({ slicesPerPerson });
+    this.setState({
+      slicesPerPerson,
+      numberOfPizzas: calculatePizzasNeeded(
+        this.state.numberOfPeople,
+        slicesPerPerson,
+      ),
+    });
   };
 
-  reset = event => {
+  reset = () => {
     this.setState({ ...initialState });
   };
 
   render() {
-    const { numberOfPeople, slicesPerPerson } = this.state;
-    const numberOfPizzas = calculatePizzasNeeded(
-      numberOfPeople,
-      slicesPerPerson,
-    );
+    const { numberOfPeople, slicesPerPerson, numberOfPizzas } = this.state;
 
     return (
       <div className="Application">
@@ -43,6 +52,7 @@ class Application extends Component {
           type="number"
           min={0}
           value={numberOfPeople}
+          name="numberOfPeople"
           onChange={this.updateNumberOfPeople}
         />
         <Input
@@ -50,6 +60,7 @@ class Application extends Component {
           type="number"
           min={0}
           value={slicesPerPerson}
+          name="slicesPerPerson"
           onChange={this.updateSlicesPerPerson}
         />
         <Result amount={numberOfPizzas} />
