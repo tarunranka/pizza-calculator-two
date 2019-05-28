@@ -9,7 +9,6 @@ import calculatePizzasNeeded from './lib/calculate-pizzas-needed';
 const initialState = {
   numberOfPeople: 10,
   slicesPerPerson: 2,
-  numberOfPizzas: calculatePizzasNeeded(10, 2),
 };
 
 class Application extends Component {
@@ -19,10 +18,6 @@ class Application extends Component {
     const numberOfPeople = parseInt(event.target.value, 10);
     this.setState({
       numberOfPeople,
-      numberOfPizzas: calculatePizzasNeeded(
-        numberOfPeople,
-        this.state.slicesPerPerson,
-      ),
     });
   };
 
@@ -30,10 +25,6 @@ class Application extends Component {
     const slicesPerPerson = parseInt(event.target.value, 10);
     this.setState({
       slicesPerPerson,
-      numberOfPizzas: calculatePizzasNeeded(
-        this.state.numberOfPeople,
-        slicesPerPerson,
-      ),
     });
   };
 
@@ -42,7 +33,7 @@ class Application extends Component {
   };
 
   render() {
-    const { numberOfPeople, slicesPerPerson, numberOfPizzas } = this.state;
+    const { numberOfPeople, slicesPerPerson } = this.state;
 
     return (
       <div className="Application">
@@ -63,7 +54,9 @@ class Application extends Component {
           name="slicesPerPerson"
           onChange={this.updateSlicesPerPerson}
         />
-        <Result amount={numberOfPizzas} />
+        <Result
+          amount={calculatePizzasNeeded(numberOfPeople, slicesPerPerson)}
+        />
         <button className="full-width" onClick={this.reset}>
           Reset
         </button>
